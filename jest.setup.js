@@ -1,6 +1,6 @@
 // Mock requestAnimationFrame and cancelAnimationFrame
-global.requestAnimationFrame = (callback) => setTimeout(callback, 0);
-global.cancelAnimationFrame = (id) => clearTimeout(id);
+globalThis.requestAnimationFrame = (callback) => setTimeout(callback, 0);
+globalThis.cancelAnimationFrame = (id) => clearTimeout(id);
 
 // Suppress act() warnings for MUI components
 const originalError = console.error;
