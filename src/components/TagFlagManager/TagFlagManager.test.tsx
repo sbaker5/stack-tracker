@@ -118,7 +118,9 @@ describe('TagFlagManager', () => {
 
   it('handles tag changes', async () => {
     const user = userEvent.setup();
-    render(<TagFlagManager {...defaultProps} />);
+    await act(async () => {
+      render(<TagFlagManager {...defaultProps} />);
+    });
 
     // Simulate tag change
     const newTags = ['finance', 'enterprise', 'healthcare'];
@@ -136,7 +138,9 @@ describe('TagFlagManager', () => {
 
   it('handles flag changes', async () => {
     const user = userEvent.setup();
-    render(<TagFlagManager {...defaultProps} />);
+    await act(async () => {
+      render(<TagFlagManager {...defaultProps} />);
+    });
 
     // Simulate flag change
     const newFlags = ['Renewal Due', 'Follow-Up Needed'];
@@ -189,7 +193,9 @@ describe('TagFlagManager', () => {
 
   it('prevents duplicate tags from being added', async () => {
     const user = userEvent.setup();
-    render(<TagFlagManager {...defaultProps} />);
+    await act(async () => {
+      render(<TagFlagManager {...defaultProps} />);
+    });
 
     // Try to add existing 'finance' tag
     const tagInput = screen.getByTestId('tag-input');
@@ -206,7 +212,9 @@ describe('TagFlagManager', () => {
 
   it('prevents duplicate flags from being added', async () => {
     const user = userEvent.setup();
-    render(<TagFlagManager {...defaultProps} />);
+    await act(async () => {
+      render(<TagFlagManager {...defaultProps} />);
+    });
 
     // Try to add existing 'Renewal Due' flag
     const flagInput = screen.getByTestId('flag-input');
