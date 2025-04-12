@@ -35,7 +35,7 @@ describe('TagInput', () => {
 
     // Find and click delete button
     const tag = screen.getByTestId('test-tag1');
-    const deleteButton = within(tag).getByLabelText('delete');
+    const deleteButton = within(tag).getByLabelText('Remove tag1');
     await user.click(deleteButton);
 
     // Verify onChange was called correctly
@@ -79,13 +79,16 @@ describe('TagInput', () => {
   it('handles disabled state', () => {
     render(<TagInput {...defaultProps} disabled />);
 
-    // Check input is disabled
-    const input = screen.getByTestId('test-input').querySelector('input');
-    expect(input).toBeDisabled();
+    // No input field should be present
+    expect(screen.queryByTestId('test-input')).not.toBeInTheDocument();
 
-    // Check delete buttons are not present
+    // But chips should still be visible
+    expect(screen.getByTestId('test-tag1')).toBeInTheDocument();
+    expect(screen.getByTestId('test-tag2')).toBeInTheDocument();
+
+    // Delete buttons should not be present on chips
     const tag = screen.getByTestId('test-tag1');
-    expect(within(tag).queryByLabelText('delete')).not.toBeInTheDocument();
+    expect(within(tag).queryByLabelText('Remove tag1')).not.toBeInTheDocument();
   });
 
   it('handles empty available values', () => {

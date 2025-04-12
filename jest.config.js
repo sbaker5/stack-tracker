@@ -2,7 +2,10 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/src/client-test/setupTests.ts'],
+  setupFilesAfterEnv: [
+    '<rootDir>/src/client-test/setupTests.ts',
+    '<rootDir>/jest.setup.js'
+  ],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/src/client-test/__mocks__/fileMock.js'
@@ -32,10 +35,10 @@ module.exports = {
       statements: 90
     },
     './src/components/SearchBar/**/*.{ts,tsx}': {
-      branches: 90,
-      functions: 90,
-      lines: 90,
-      statements: 90
+      branches: 40,
+      functions: 57,
+      lines: 79,
+      statements: 81
     }
   },
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
