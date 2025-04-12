@@ -1,0 +1,124 @@
+# Testing Framework
+- /src/client-test
+  - Use Jest for unit testing
+  - React Testing Library for component testing
+  - 80% minimum test coverage required
+  - Test files should be co-located with components
+  - Follow AAA pattern (Arrange, Act, Assert)
+  - Mobile QA with physical iPhone testing
+  - Data validation and backup/export testing
+
+# API Project
+- /src/client-stack-api
+  - RESTful API design principles
+  - OpenAPI/Swagger documentation required
+  - Versioned endpoints
+  - Rate limiting implementation
+  - Error handling with standard response formats
+  - JWT-based authentication
+  - Role-based access control
+
+# Context Documents
+- /docs
+  - API documentation
+  - Component architecture diagrams
+  - SLA profile specifications
+  - Project setup guide
+  - Deployment procedures
+  - Database schema documentation
+  - Export format specifications
+
+# Project Structure
+/client-stack-tracker-frontend
+├── public/
+├── src/
+│   ├── components/       # Modular components
+│   ├── pages/           # Page-level views
+│   ├── context/         # Application state
+│   ├── hooks/           # Reusable logic
+│   ├── utils/           # Utility scripts
+│   └── App.jsx          # App container
+
+/client-stack-tracker-backend
+├── app/
+│   ├── routes/          # API endpoints
+│   ├── models/          # Database schema
+│   ├── services/        # Business logic
+│   ├── utils/           # Logging, export, helpers
+│   └── app.py          # Main application
+
+# Coding Style Guidelines
+- Always follow SOLID principles
+- Use TypeScript for type safety
+- Follow Material-UI component patterns
+- Use functional components with hooks
+- Implement proper error boundaries
+- Use meaningful variable and function names
+- Keep components small and focused
+- Implement proper prop validation
+- Use async/await for promises
+- Implement proper loading states
+- Follow React best practices for state management
+- Use proper folder structure:
+  - components/
+  - hooks/
+  - services/
+  - utils/
+  - types/
+  - constants/
+
+# State Management
+- Use React Context for global state
+- Implement proper data caching
+- Follow immutability principles
+- Use reducers for complex state logic
+- Persistent session handling
+- Change tracking and logging
+
+# Performance Guidelines
+- Implement code splitting
+- Use React.memo for expensive renders
+- Optimize bundle size
+- Implement proper loading strategies
+- Use proper image optimization
+- Database query optimization
+- Caching strategies for frequent queries
+
+# Security Guidelines
+- Implement proper input validation
+- Use environment variables for sensitive data
+- Implement proper authentication/authorization
+- Follow OWASP security guidelines
+- Regular security audits required
+- JWT token management
+- Role-based access control
+- API rate limiting
+
+# Mobile/Device Optimization
+- Mobile-optimized UI architecture
+- Custom-calibrated for iPhone 15 Pro Max resolution
+- Responsive layouts with touch-first design patterns
+- Touch-friendly component interactions
+- Adaptive UI for different screen sizes
+- Performance optimization for mobile devices
+
+# Export Requirements
+- Support multiple export formats:
+  - Mind Map (PDF)
+  - Tiered List (PDF)
+  - Flat Data Table (CSV)
+- Visibility controls for exported content
+- Custom export settings for tags/flags/notes
+- One-click database export in JSON/CSV
+- Export format validation
+- Batch export capabilities
+
+# Database and Backup
+- MongoDB Atlas for data storage
+- Document-centric JSON schema
+- Persistent session handling
+- Regular automated backups
+- Data durability requirements
+- Backup verification procedures
+- Disaster recovery planning
+- Data retention policies
