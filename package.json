@@ -7,12 +7,12 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "jest --coverage",
-    "test:ci": "jest --config=jest.ci.config.js",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:coverage:report": "jest --coverage --coverageReporters='text-summary' --coverageReporters='html'",
-    "test:update": "jest -u"
+    "test": "jest --config=jest.config.cjs --coverage",
+    "test:ci": "jest --config=jest.ci.config.cjs",
+    "test:watch": "jest --config=jest.config.cjs --watch",
+    "test:coverage": "jest --config=jest.config.cjs --coverage",
+    "test:coverage:report": "jest --config=jest.config.cjs --coverage --coverageReporters='text-summary' --coverageReporters='html'",
+    "test:update": "jest --config=jest.config.cjs -u"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
