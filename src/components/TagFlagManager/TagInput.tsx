@@ -162,6 +162,24 @@ export const TagInput: React.FC<TagInputProps> = ({
           onInputChange={handleInputChange}
           onChange={handleAdd}
           disabled={!normalizedOptions.length}
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              {...props}
+              sx={{
+                padding: '8px 16px',
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1
+              }}
+            >
+              {React.cloneElement(icon, { fontSize: 'small' })}
+              {option}
+            </Box>
+          )}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -179,6 +197,15 @@ export const TagInput: React.FC<TagInputProps> = ({
               component="div"
               {...props}
               data-testid={`${testIdPrefix}-autocomplete-popper`}
+              sx={{
+                backgroundColor: 'background.paper',
+                boxShadow: 3,
+                borderRadius: 1,
+                border: '1px solid',
+                borderColor: 'divider',
+                zIndex: 1300,
+                overflow: 'hidden'
+              }}
             />
           )}
         />
