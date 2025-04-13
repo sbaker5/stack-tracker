@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDFnYCx9vogKeUwmL-QoKrZnVz--o14SmM",
   authDomain: "stack-tracker.firebaseapp.com",
   projectId: "stack-tracker",
-  storageBucket: "stack-tracker.firebasestorage.app",
+  storageBucket: "stack-tracker.appspot.com",
   messagingSenderId: "677178514230",
   appId: "1:677178514230:web:7f8439f894014b87e27197"
 };

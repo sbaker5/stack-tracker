@@ -31,7 +31,8 @@ export const SignIn: React.FC<SignInProps> = ({ onSignUp, onSuccess }) => {
       const { user, error } = await signIn(email, password);
       
       if (error) {
-        setError('Invalid email or password. Please try again.');
+        // Use the specific error message from the auth function
+        setError(error.toString());
         setLoading(false);
         return;
       }
@@ -40,6 +41,7 @@ export const SignIn: React.FC<SignInProps> = ({ onSignUp, onSuccess }) => {
         onSuccess();
       }
     } catch (err) {
+      console.error('SignIn component error:', err);
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);

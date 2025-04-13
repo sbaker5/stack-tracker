@@ -51,15 +51,10 @@ export const SignUp: React.FC<SignUpProps> = ({ onSignIn, onSuccess }) => {
       const { user, error } = await registerUser(email, password, name);
       
       if (error) {
-        // Handle specific Firebase errors
-        const firebaseError = error as FirebaseError;
-        if (firebaseError.code === 'auth/email-already-in-use') {
-          setError('Email is already in use. Please sign in instead.');
-        } else if (firebaseError.code === 'auth/invalid-email') {
-          setError('Invalid email address.');
-        } else {
-          setError('Failed to create account. Please try again.');
-        }
+        // Use the specific error message from the auth function
+        console.error('Registration error:', error);
+        setError(error.toString());
+        setLoading(false);
         return;
       }
       
