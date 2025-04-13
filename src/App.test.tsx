@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { App } from './App';
 import { AuthContext } from './context/AuthContext';
+import { User } from 'firebase/auth';
 
 // Mock Firebase Auth
 jest.mock('firebase/auth', () => ({
@@ -30,17 +31,17 @@ jest.mock('firebase/firestore', () => ({
 }));
 
 // Create a mock AuthContext provider for testing
-const renderWithAuth = (ui: React.ReactElement, { user = null, loading = false } = {}) => {
+const renderWithAuth = (ui: React.ReactElement, { user = null as User | null, loading = false } = {}) => {
   return render(
     <AuthContext.Provider
       value={{
         currentUser: user,
         loading,
         error: null,
-        signIn: jest.fn(),
-        signUp: jest.fn(),
-        signOut: jest.fn(),
-        resetPassword: jest.fn(),
+        signIn: jest.fn().mockResolvedValue({ user: null, error: null }),
+        signUp: jest.fn().mockResolvedValue({ user: null, error: null }),
+        signOut: jest.fn().mockResolvedValue({ success: true, error: null }),
+        resetPassword: jest.fn().mockResolvedValue({ success: true, error: null }),
       }}
     >
       {ui}
@@ -60,11 +61,26 @@ describe('App', () => {
   });
 
   it('renders main application when user is authenticated', () => {
+    // Create a mock User object that matches Firebase User type
     const mockUser = { 
       uid: 'test-uid',
       email: 'test@example.com',
-      displayName: 'Test User'
-    };
+      displayName: 'Test User',
+      emailVerified: false,
+      isAnonymous: false,
+      metadata: {},
+      providerData: [],
+      refreshToken: '',
+      tenantId: null,
+      delete: jest.fn(),
+      getIdToken: jest.fn(),
+      getIdTokenResult: jest.fn(),
+      reload: jest.fn(),
+      toJSON: jest.fn(),
+      phoneNumber: null,
+      photoURL: null,
+      providerId: 'password'
+    } as unknown as User;
     
     renderWithAuth(<App />, { user: mockUser, loading: false });
     
