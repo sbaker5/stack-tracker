@@ -24,7 +24,7 @@ jobs:
       run: tsc --noEmit
       
     - name: Run tests
-      run: npm test -- --passWithNoTests
+      run: npm run test:ci
       
     - name: Build
       run: npm run build || (echo 'Build failed. Check the error above.' && exit 1)

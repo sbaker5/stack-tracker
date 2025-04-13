@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest --coverage",
+    "test:ci": "jest --config=jest.ci.config.js",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:coverage:report": "jest --coverage --coverageReporters='text-summary' --coverageReporters='html'",
