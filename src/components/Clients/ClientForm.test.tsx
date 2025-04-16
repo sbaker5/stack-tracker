@@ -46,7 +46,7 @@ describe('ClientForm', () => {
     render(
       <ClientForm
         {...defaultProps}
-        client={{ id: '1', name: 'Acme', tags: [], flags: [], industry: 'Technology', description: '', notes: '', createdAt: '', updatedAt: '' }}
+        client={{ id: '1', name: 'Acme', tags: [], flags: [], industry: 'Technology', description: '', createdAt: '', updatedAt: '' }}
       />
     );
     expect(screen.getByText(/edit client/i)).toBeInTheDocument();
@@ -94,7 +94,7 @@ describe('ClientForm', () => {
     render(
       <ClientForm
         {...defaultProps}
-        client={{ id: '1', name: 'Acme', tags: [], flags: [], industry: 'Technology', description: '', notes: '', createdAt: '', updatedAt: '' }}
+        client={{ id: '1', name: 'Acme', tags: [], flags: [], industry: 'Technology', description: '', createdAt: '', updatedAt: '' }}
       />
     );
     const user = userEvent.setup();
@@ -113,7 +113,7 @@ describe('ClientForm', () => {
     render(
       <ClientForm
         {...defaultProps}
-        client={{ id: '1', name: 'Acme', tags: [], flags: [], industry: 'Technology', description: '', notes: '', createdAt: '', updatedAt: '' }}
+        client={{ id: '1', name: 'Acme', tags: [], flags: [], industry: 'Technology', description: '', createdAt: '', updatedAt: '' }}
       />
     );
     const user = userEvent.setup();

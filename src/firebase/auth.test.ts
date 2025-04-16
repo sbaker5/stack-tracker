@@ -1,10 +1,3 @@
-// Restore original console.error to avoid recursion from frontend setup
-beforeAll(() => {
-  // @ts-ignore
-  if (console._originalError) {
-    console.error = console._originalError;
-  }
-});
 
 // Mock Firebase SDK methods and config at the very top
 jest.mock('./config', () => ({
