@@ -53,6 +53,7 @@ export const ExportMenu: React.FC<ExportMenuProps> = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -63,15 +64,25 @@ export const ExportMenu: React.FC<ExportMenuProps> = ({
 
   const handleClose = () => {
     setAnchorEl(null);
+    setError(null); // Clear error when menu closes
+    setExportAttempted(false);
   };
 
+  // Track if export was triggered by user click
+  const [exportAttempted, setExportAttempted] = useState(false);
+
   const handleExport = async (format: string) => {
+    setError(null); // Clear previous error
+    setExportAttempted(true);
+    setLoading(true);
     try {
-      setLoading(true);
       await onExport(format);
-    } finally {
       setLoading(false);
-      handleClose();
+      setExportAttempted(false);
+      handleClose(); // Success: close menu
+    } catch (err: any) {
+      setLoading(false);
+      setError(err?.message || 'Export failed'); // Failure: keep menu open
     }
   };
 
@@ -106,6 +117,13 @@ export const ExportMenu: React.FC<ExportMenuProps> = ({
           'data-testid': 'export-menu' as string
         }}
       >
+        {error && (
+          <MenuItem disabled style={{ pointerEvents: 'none', background: 'transparent' }}>
+            <span style={{ width: '100%' }}>
+              <span data-testid="export-error" style={{ color: '#d32f2f', fontWeight: 500 }}>{error}</span>
+            </span>
+          </MenuItem>
+        )}
         {availableFormats.map((format) => (
           <MenuItem
             key={format.id}

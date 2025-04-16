@@ -101,11 +101,16 @@ export const TagInput: React.FC<TagInputProps> = ({
   const handleAdd = (_event: React.SyntheticEvent, value: string | null) => {
     if (!value?.trim()) return;
     const trimmedValue = value.trim();
-    if (!normalizedValues.includes(trimmedValue)) {
+    // Only allow adding if value is in normalizedOptions
+    if (
+      !normalizedValues.includes(trimmedValue) &&
+      normalizedOptions.includes(trimmedValue)
+    ) {
       onChange([...normalizedValues, trimmedValue]);
       setInputValue('');
     }
   };
+
 
   // Handle input change
   const handleInputChange = (_event: React.SyntheticEvent, value: string) => {
@@ -162,24 +167,28 @@ export const TagInput: React.FC<TagInputProps> = ({
           onInputChange={handleInputChange}
           onChange={handleAdd}
           disabled={!normalizedOptions.length}
-          renderOption={(props, option) => (
-            <Box
-              component="li"
-              {...props}
-              sx={{
-                padding: '8px 16px',
-                '&:hover': {
-                  backgroundColor: 'action.hover',
-                },
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1
-              }}
-            >
-              {React.cloneElement(icon, { fontSize: 'small' })}
-              {option}
-            </Box>
-          )}
+          renderOption={(props, option) => {
+            const { key, ...rest } = props;
+            return (
+              <Box
+                component="li"
+                key={key}
+                {...rest}
+                sx={{
+                  padding: '8px 16px',
+                  '&:hover': {
+                    backgroundColor: 'action.hover',
+                  },
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}
+              >
+                {React.cloneElement(icon, { fontSize: 'small' })}
+                {option}
+              </Box>
+            );
+          }}
           renderInput={(params) => (
             <TextField
               {...params}

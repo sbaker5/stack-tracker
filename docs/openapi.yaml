@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: Stack Tracker Data Model & Operations (Firebase)
+  description: |
+    This document describes the data model, authentication flows, and client-driven operations for the Stack Tracker app, which uses Firebase (Firestore + Auth) as its backend. There is currently no custom REST API; all data access is via Firebase SDKs.
+    
+    If a custom API is added in the future, this spec will be extended accordingly.
+  version: 1.0.0
+
+x-notes:
+  - All data is stored in Firestore collections. Operations are performed client-side via Firebase SDK.
+  - Authentication is handled by Firebase Auth (email/password, Google, etc.).
+  - Exports are generated client-side from local app state.
+  - There are no JWT tokens or REST endpoints at this time.
+
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        technologies:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        flags:
+          type: array
+          items:
+            type: string
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    TechnologyType:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+    User:
+      type: object
+      properties:
+        uid:
+          type: string
+        email:
+          type: string
+        displayName:
+          type: string
+
+x-firestore-collections:
+  - clients: Stores client/stack records (see Client schema)
+  - technologyTypes: Stores technology type/category info (see TechnologyType schema)
+  - users: Stores user profile info
+
+x-firebase-auth:
+  flows:
+    - signUp(email, password)
+    - signIn(email, password)
+    - signOut()
+    - onAuthStateChanged(callback)
+
+x-operations:
+  - Fetch all clients for current user
+  - Fetch single client (with technologies)
+  - Add/update/delete client
+  - Fetch/add technology types
+  - Tag/flag management (update tags/flags on a client)
+  - Export data (client-side: PDF, CSV, JSON)
+
+x-export:
+  - All export logic is client-side; data is pulled from Firestore and formatted in-app.
+
+# This file serves as a living contract for the current Firebase-based architecture. If a custom API is added, standard OpenAPI paths and endpoints will be introduced here.

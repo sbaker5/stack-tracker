@@ -46,22 +46,21 @@ describe('TagInput', () => {
   });
 
   it('handles value addition', async () => {
-    const onChange = jest.fn();
-    render(<TagInput 
-      {...defaultProps} 
-      onChange={onChange}
-    />);
-
-    // Get input and type
+    function Wrapper() {
+      const [values, setValues] = React.useState(['tag1', 'tag2']);
+      return (
+        <TagInput
+          {...defaultProps}
+          values={values}
+          onChange={setValues}
+        />
+      );
+    }
+    render(<Wrapper />);
     const input = screen.getByTestId('test-input').querySelector('input');
     if (!input) throw new Error('Input not found');
-
-    // Use fireEvent instead of userEvent to avoid recursion issues
-    fireEvent.change(input, { target: { value: 'tag3' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
-
-    // Verify onChange was called correctly
-    expect(onChange).toHaveBeenCalledWith([...defaultProps.values, 'tag3']);
+    await userEvent.type(input, 'tag3{enter}');
+    expect(screen.getByTestId('test-tag3')).toBeInTheDocument();
   });
 
   it('prevents duplicate values', async () => {
@@ -106,37 +105,24 @@ describe('TagInput', () => {
     expect(input).toBeDisabled();
   });
 
-  it('filters out invalid available values', () => {
-    const { rerender } = render(
-      <TagInput
-        {...defaultProps}
-        values={['existing']}
-        availableValues={['', '  ', null, undefined, 'valid', 'existing'] as string[]}
-      />
-    );
-
-    // Get input
+  it('filters out invalid available values', async () => {
+    function Wrapper() {
+      const [values, setValues] = React.useState(['existing']);
+      return (
+        <TagInput
+          {...defaultProps}
+          values={values}
+          availableValues={['', '  ', null, undefined, 'valid', 'existing'] as string[]}
+          onChange={setValues}
+        />
+      );
+    }
+    render(<Wrapper />);
     const input = screen.getByTestId('test-input').querySelector('input');
     if (!input) throw new Error('Input not found');
-
-    // Simulate typing without actually triggering the dropdown
-    fireEvent.change(input, { target: { value: 'val' } });
-
-    // Verify input has the value
-    expect(input).toHaveValue('val');
-
-    // Test with undefined availableValues
-    rerender(
-      <TagInput
-        {...defaultProps}
-        values={[]}
-        availableValues={[]}
-      />
-    );
-
-    // Verify input is disabled
-    const newInput = screen.getByTestId('test-input').querySelector('input');
-    expect(newInput).toBeDisabled();
+    await userEvent.type(input, 'invalid{enter}');
+    // Should not add a tag for an invalid value
+    expect(screen.queryByTestId('test-invalid')).not.toBeInTheDocument();
   });
 
   it('handles input state changes', () => {
@@ -187,27 +173,23 @@ describe('TagInput', () => {
     expect(screen.getByTestId('test-input')).toBeInTheDocument();
   });
 
-  it('handles value addition correctly', () => {
-    const onChange = jest.fn();
-    render(
-      <TagInput
-        {...defaultProps}
-        values={['existing']}
-        availableValues={['new', 'existing']}
-        onChange={onChange}
-      />
-    );
-
-    // Add new value
+  it('handles value addition correctly', async () => {
+    function Wrapper() {
+      const [values, setValues] = React.useState(['existing']);
+      return (
+        <TagInput
+          {...defaultProps}
+          values={values}
+          availableValues={['new', 'existing']}
+          onChange={setValues}
+        />
+      );
+    }
+    render(<Wrapper />);
     const input = screen.getByTestId('test-input').querySelector('input');
     if (!input) throw new Error('Input not found');
-
-    // Use fireEvent instead of userEvent to avoid recursion issues
-    fireEvent.change(input, { target: { value: 'new' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
-
-    // Verify onChange was called with new value
-    expect(onChange).toHaveBeenCalledWith(['existing', 'new']);
+    await userEvent.type(input, 'new{enter}');
+    expect(screen.getByTestId('test-new')).toBeInTheDocument();
   });
 
   it('handles chip deletion', () => {

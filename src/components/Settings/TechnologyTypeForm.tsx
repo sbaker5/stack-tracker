@@ -110,8 +110,9 @@ export const TechnologyTypeForm: React.FC<TechnologyTypeFormProps> = ({
         }
       } else {
         // Add new technology type
-        const { id, error } = await addTechnologyType(techTypeData as Omit<TechnologyType, 'id'>);
-        
+        const result = await addTechnologyType(techTypeData as Omit<TechnologyType, 'id'>);
+        console.log('ADD RESULT', result);
+        const { id, error } = result;
         if (!id) {
           throw new Error(error as string || 'Failed to add technology type');
         }

@@ -56,15 +56,19 @@ export const TechnologyTypeManager: React.FC = () => {
     if (!deletingType) return;
     
     setDeleteLoading(true);
-    setDeleteError(null);
+    // console.log('setDeleteError called:', arguments[0]);
+setDeleteError(null);
     
     try {
-      const { success, error } = await deleteTechnologyType(deletingType.id);
-      
+      const result = await deleteTechnologyType(deletingType.id);
+      // console.log('deleteTechnologyType result:', result);
+      const { success, error } = result;
       if (!success) {
-        throw new Error(error as string || 'Failed to delete technology type');
+        setDeleteError(error as string || 'Failed to delete technology type');
+        setDeleteLoading(false);
+        return;
       }
-      
+      // console.log('setDeletingType(null) called');
       setDeletingType(null);
     } catch (err) {
       console.error('Error deleting technology type:', err);
@@ -199,8 +203,12 @@ export const TechnologyTypeManager: React.FC = () => {
       {/* Delete Confirmation Dialog */}
       <Dialog
         open={!!deletingType}
-        onClose={() => setDeletingType(null)}
+        onClose={() => {
+          if (!deleteError) // console.log('setDeletingType(null) called');
+setDeletingType(null);
+        }}
       >
+
         <Box p={3} width={400}>
           <Typography variant="h6" gutterBottom>
             Delete Technology Type

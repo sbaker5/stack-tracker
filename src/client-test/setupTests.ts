@@ -1,12 +1,16 @@
 import '@testing-library/jest-dom';
 
 // Suppress MUI act() warnings in tests
-jest.spyOn(console, 'error').mockImplementation((...args) => {
-  if (typeof args[0] === 'string' && args[0].includes('Warning: An update to')) {
-    return;
-  }
-  console.error(...args);
-});
+if (!process.env.BACKEND_TEST) {
+  const originalError = console.error;
+  jest.spyOn(console, 'error').mockImplementation((...args) => {
+    if (typeof args[0] === 'string' && args[0].includes('Warning: An update to')) {
+      return;
+    }
+    originalError(...args);
+  });
+}
+
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {

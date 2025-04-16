@@ -53,7 +53,14 @@ export const SignUp: React.FC<SignUpProps> = ({ onSignIn, onSuccess }) => {
       if (error) {
         // Use the specific error message from the auth function
         console.error('Registration error:', error);
-        setError(error.toString());
+
+        if (typeof error === 'string') {
+          setError(error);
+        } else if (error && typeof error === 'object' && 'message' in error) {
+          setError((error as { message: string }).message);
+        } else {
+          setError('An unexpected error occurred. Please try again.');
+        }
         setLoading(false);
         return;
       }
@@ -61,8 +68,12 @@ export const SignUp: React.FC<SignUpProps> = ({ onSignIn, onSuccess }) => {
       if (user && onSuccess) {
         onSuccess();
       }
-    } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
+    } catch (err: any) {
+      if (typeof err?.message === 'string') {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -138,6 +149,7 @@ export const SignUp: React.FC<SignUpProps> = ({ onSignIn, onSuccess }) => {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
           disabled={loading}
+          aria-label="Sign Up"
         >
           {loading ? <CircularProgress size={24} /> : 'Sign Up'}
         </Button>

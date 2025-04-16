@@ -137,7 +137,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({
         </Alert>
       )}
       
-      <Box component="form" onSubmit={handleSubmit} noValidate>
+      <Box component="form" data-testid="client-form" onSubmit={handleSubmit} noValidate>
         <TextField
           margin="normal"
           required

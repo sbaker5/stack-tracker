@@ -93,6 +93,7 @@ export const SignIn: React.FC<SignInProps> = ({ onSignUp, onSuccess }) => {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
           disabled={loading}
+          aria-label="Sign In"
         >
           {loading ? <CircularProgress size={24} /> : 'Sign In'}
         </Button>
