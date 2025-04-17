@@ -26,6 +26,8 @@ jest.mock('../Clients/ClientsList', () => ({
   )
 }));
 
+import { AuthContext } from '../../context/AuthContext';
+
 describe('TabNavigation', () => {
   it('renders all tabs correctly', () => {
     render(<TabNavigation />);
@@ -103,6 +105,38 @@ describe('TabNavigation', () => {
     await user.click(screen.getByRole('button', { name: /Globex Industries/i }));
     // Check for client stack content (mock)
     expect(screen.getByTestId('client-stack')).toHaveTextContent('globex-id Stack');
+  });
+
+  it('logs out and redirects to /signin', async () => {
+    const mockSignOut = jest.fn().mockResolvedValue({ success: true, error: null });
+    const mockCurrentUser = { displayName: 'Test User', email: 'test@example.com' };
+    const originalLocation = window.location;
+    // @ts-ignore
+    delete window.location;
+    window.location = { href: '', ...originalLocation };
+
+    render(
+      <AuthContext.Provider value={{
+        currentUser: mockCurrentUser,
+        loading: false,
+        error: null,
+        signIn: jest.fn(),
+        signUp: jest.fn(),
+        signOut: mockSignOut,
+        resetPassword: jest.fn(),
+      }}>
+        <TabNavigation />
+      </AuthContext.Provider>
+    );
+
+    // Click the Logout button
+    const logoutBtn = screen.getByText('Logout');
+    fireEvent.click(logoutBtn);
+    // Wait for async signOut
+    await screen.findByText('Logout');
+    expect(mockSignOut).toHaveBeenCalled();
+    expect(window.location.href).toBe('/signin');
+    window.location = originalLocation;
   });
 
   it('maintains accessibility standards', () => {

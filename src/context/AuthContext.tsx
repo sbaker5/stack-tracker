@@ -59,14 +59,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Import the real signOut from firebase/auth
+  const { signOut: firebaseSignOut } = require('../firebase/auth');
   const signOut = async () => {
     try {
-      // Implementation would go here in a real app
+      const result = await firebaseSignOut();
+      if (result && result.error) {
+        return { success: false, error: result.error };
+      }
       return { success: true, error: null };
     } catch (error) {
       return { success: false, error: 'Sign out error' };
     }
   };
+
 
   const resetPassword = async (email: string) => {
     try {
