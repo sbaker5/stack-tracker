@@ -95,6 +95,8 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+import { useAuth } from '../../context/AuthContext';
+
 export const TabNavigation: React.FC = () => {
   const [value, setValue] = useState(0);
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
@@ -116,8 +118,42 @@ export const TabNavigation: React.FC = () => {
   const availableTags = ['enterprise', 'finance', 'healthcare', 'tech', 'startup', 'manufacturing', 'education', 'government'];
   const availableFlags = ['Renewal Due', 'Follow-Up Needed', 'Expansion Planned', 'At Risk', 'VIP'];
 
+  const { currentUser, signOut } = useAuth();
+  const [logoutError, setLogoutError] = useState<string | null>(null);
+
+  const handleLogout = async () => {
+    const res = await signOut();
+    if (res.success) {
+      window.location.reload(); // Or redirect to login page if you have routing
+    } else {
+      setLogoutError(res.error || 'Failed to log out');
+    }
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
+      {/* User info and logout button */}
+      {currentUser && (
+        <Box display="flex" alignItems="center" justifyContent="flex-end" px={2} pt={1}>
+          <Typography variant="body2" color="text.secondary" sx={{ mr: 1 }}>
+            {currentUser.displayName || currentUser.email}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="primary"
+            sx={{ cursor: 'pointer', fontWeight: 500, fontSize: '0.85rem' }}
+            onClick={handleLogout}
+            aria-label="Logout"
+            tabIndex={0}
+            role="button"
+          >
+            Logout
+          </Typography>
+        </Box>
+      )}
+      {logoutError && (
+        <Typography color="error" variant="caption" sx={{ ml: 2 }}>{logoutError}</Typography>
+      )}
       <Paper 
         elevation={3} 
         sx={{ 
