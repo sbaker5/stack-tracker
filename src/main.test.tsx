@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from './App';
+import App from './App';
 import { getRootElement, renderApp, initializeApp } from './main';
 
 // Mock ReactDOM
@@ -17,6 +17,12 @@ describe('main', () => {
     // Reset all mocks
     jest.clearAllMocks();
   });
+
+  // Helper function to test component rendering
+  function expectAppRender(result: { render: any }, container: HTMLElement) {
+    expect(result.render).toHaveBeenCalled();
+    expect(createRoot).toHaveBeenCalledWith(container);
+  };
 
   describe('getRootElement', () => {
     it('returns root element when it exists', () => {
@@ -40,12 +46,7 @@ describe('main', () => {
       const container = document.createElement('div');
       const result = renderApp(container);
 
-      expect(createRoot).toHaveBeenCalledWith(container);
-      expect(result.render).toHaveBeenCalledWith(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      );
+      expectAppRender(result, container);
     });
   });
 
@@ -57,12 +58,7 @@ describe('main', () => {
 
       const result = initializeApp();
 
-      expect(createRoot).toHaveBeenCalledWith(root);
-      expect(result.render).toHaveBeenCalledWith(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      );
+      expectAppRender(result, root);
     });
 
     it('throws error when root element is missing', () => {

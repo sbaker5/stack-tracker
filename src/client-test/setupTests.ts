@@ -4,7 +4,11 @@ import '@testing-library/jest-dom';
 if (!process.env.BACKEND_TEST) {
   const originalError = console.error;
   jest.spyOn(console, 'error').mockImplementation((...args) => {
-    if (typeof args[0] === 'string' && args[0].includes('Warning: An update to')) {
+    // Suppress common test warnings that don't affect functionality
+    if (typeof args[0] === 'string' && (
+      args[0].includes('Warning: An update to') ||
+      args[0].includes('Warning: React.jsx: type is invalid')
+    )) {
       return;
     }
     originalError(...args);

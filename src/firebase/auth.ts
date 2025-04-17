@@ -56,9 +56,15 @@ export const signIn = async (email: string, password: string) => {
 export const signOut = async () => {
   try {
     await firebaseSignOut(auth);
-    return { error: null };
-  } catch (error) {
-    return { error };
+    return { success: true, error: null };
+  } catch (error: any) {
+    let errorMsg = 'Sign out error';
+    if (typeof error === 'string') {
+      errorMsg = error;
+    } else if (typeof error?.message === 'string') {
+      errorMsg = error.message;
+    }
+    return { success: false, error: errorMsg };
   }
 };
 
