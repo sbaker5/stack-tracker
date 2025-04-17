@@ -134,14 +134,14 @@ export const TabNavigation: React.FC = () => {
     <Box sx={{ width: '100%' }}>
       {/* User info and logout button */}
       {currentUser && (
-        <Box display="flex" alignItems="center" justifyContent="flex-end" px={2} pt={1}>
-          <Typography variant="body2" color="text.secondary" sx={{ mr: 1 }}>
+        <Box display="flex" alignItems="center" justifyContent="flex-end" px={2} pt={2}>
+          <Typography variant="subtitle1" color="text.secondary" sx={{ mr: 1, fontWeight: 500 }}>
             {currentUser.displayName || currentUser.email}
           </Typography>
           <Typography
             variant="body2"
             color="primary"
-            sx={{ cursor: 'pointer', fontWeight: 500, fontSize: '0.85rem' }}
+            sx={{ cursor: 'pointer', fontWeight: 500, fontSize: '0.95rem' }}
             onClick={handleLogout}
             aria-label="Logout"
             tabIndex={0}
