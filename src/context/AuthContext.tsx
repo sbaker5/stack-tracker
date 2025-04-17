@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from 'firebase/auth';
-import { subscribeToAuthChanges } from '../firebase/auth';
+import { subscribeToAuthChanges, signOut as firebaseSignOut } from '../firebase/auth';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -59,8 +59,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Import the real signOut from firebase/auth
-  const { signOut: firebaseSignOut } = require('../firebase/auth');
   const signOut = async () => {
     try {
       const result = await firebaseSignOut();
