@@ -109,15 +109,34 @@ describe('TabNavigation', () => {
 
   it('logs out and redirects to /signin', async () => {
     const mockSignOut = jest.fn().mockResolvedValue({ success: true, error: null });
-    const mockCurrentUser = { displayName: 'Test User', email: 'test@example.com' };
-    const originalLocation = window.location;
-    // @ts-ignore
-    delete window.location;
-    window.location = { href: '', ...originalLocation };
+    const mockCurrentUser = {
+      displayName: 'Test User',
+      email: 'test@example.com',
+      emailVerified: true,
+      isAnonymous: false,
+      metadata: {},
+      providerData: [],
+      refreshToken: '',
+      tenantId: null,
+      delete: jest.fn(),
+      getIdToken: jest.fn(),
+      getIdTokenResult: jest.fn(),
+      reload: jest.fn(),
+      toJSON: jest.fn(),
+      uid: 'user-123',
+      phoneNumber: null,
+      photoURL: null,
+      providerId: 'password'
+    };
+    const assignMock = jest.fn();
+    Object.defineProperty(window, 'location', {
+      value: { ...window.location, assign: assignMock },
+      writable: true,
+    });
 
     render(
       <AuthContext.Provider value={{
-        currentUser: mockCurrentUser,
+        currentUser: mockCurrentUser as any,
         loading: false,
         error: null,
         signIn: jest.fn(),
@@ -132,11 +151,9 @@ describe('TabNavigation', () => {
     // Click the Logout button
     const logoutBtn = screen.getByText('Logout');
     fireEvent.click(logoutBtn);
-    // Wait for async signOut
     await screen.findByText('Logout');
     expect(mockSignOut).toHaveBeenCalled();
-    expect(window.location.href).toBe('/signin');
-    window.location = originalLocation;
+    expect(assignMock).toHaveBeenCalledWith('/signin');
   });
 
   it('maintains accessibility standards', () => {

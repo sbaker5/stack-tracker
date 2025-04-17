@@ -124,7 +124,7 @@ export const TabNavigation: React.FC = () => {
   const handleLogout = async () => {
     const res = await signOut();
     if (res.success) {
-      window.location.href = '/signin';
+      window.location.assign('/signin');
     } else {
       setLogoutError(res.error || 'Failed to log out');
     }
