@@ -67,7 +67,7 @@ const LoadingScreen = () => (
 );
 
 // Main App component with authentication flow
-export function App() {
+function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -77,6 +77,8 @@ export function App() {
     </ThemeProvider>
   );
 }
+
+export default App;
 
 // App content that handles authentication state
 const AppContent = () => {

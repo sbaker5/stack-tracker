@@ -18,6 +18,10 @@ jest.mock('firebase/auth', () => ({
 
 import { registerUser, signIn, signOut } from './auth';
 
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
 describe('auth.ts', () => {
   beforeEach(() => {
     jest.clearAllMocks();
