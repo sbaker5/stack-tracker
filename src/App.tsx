@@ -41,12 +41,9 @@ const AuthenticatedApp = () => {
   
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', mb: 4 }}>
         <Typography variant="h3" component="h1">
           Stack Tracker
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          {currentUser?.displayName || currentUser?.email}
         </Typography>
       </Box>
       
