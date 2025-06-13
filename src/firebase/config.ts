@@ -3,22 +3,43 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-// Firebase configuration from the Firebase console
-// Replace this with your actual configuration from the Firebase console
+// Firebase configuration using environment variables
+function getEnv(key: string): string {
+  // Vite uses import.meta.env, Jest uses process.env
+  if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[key]) {
+    return import.meta.env[key];
+  }
+  if (typeof process !== 'undefined' && process.env && process.env[key]) {
+    return process.env[key] as string;
+  }
+  return '';
+}
+
+const requiredKeys = [
+  'VITE_FIREBASE_API_KEY',
+  'VITE_FIREBASE_AUTH_DOMAIN',
+  'VITE_FIREBASE_PROJECT_ID',
+  'VITE_FIREBASE_STORAGE_BUCKET',
+  'VITE_FIREBASE_MESSAGING_SENDER_ID',
+  'VITE_FIREBASE_APP_ID',
+];
+
+for (const key of requiredKeys) {
+  if (!getEnv(key)) {
+    throw new Error(`Missing Firebase environment variable: ${key}`);
+  }
+}
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDFnYCx9vogKeUwmL-QoKrZnVz--o14SmM",
-  authDomain: "stack-tracker.firebaseapp.com",
-  projectId: "stack-tracker",
-  storageBucket: "stack-tracker.appspot.com",
-  messagingSenderId: "677178514230",
-  appId: "1:677178514230:web:7f8439f894014b87e27197"
+  apiKey: getEnv('VITE_FIREBASE_API_KEY'),
+  authDomain: getEnv('VITE_FIREBASE_AUTH_DOMAIN'),
+  projectId: getEnv('VITE_FIREBASE_PROJECT_ID'),
+  storageBucket: getEnv('VITE_FIREBASE_STORAGE_BUCKET'),
+  messagingSenderId: getEnv('VITE_FIREBASE_MESSAGING_SENDER_ID'),
+  appId: getEnv('VITE_FIREBASE_APP_ID'),
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Initialize Firestore and Auth
 export const db = getFirestore(app);
 export const auth = getAuth(app);
-
 export default app;
